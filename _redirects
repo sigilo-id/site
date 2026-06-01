@@ -1,0 +1,4 @@
+# Future redirects — uncomment as subdomains come online
+# /docs/*    https://docs.sigilo.id/:splat    301
+# /status    https://status.sigilo.id          301
+# /app/*     https://app.sigilo.id/:splat      301
