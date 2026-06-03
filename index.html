@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sigilo — Proof in confidence.</title>
-<meta name="description" content="Sigilo is a privacy-preserving age verification network. Built on zero-knowledge proofs. Designed for regulators. Architected so we cannot track who visits where. Sigilo, n. — secrecy, discretion (Sp./Pt.)">
+<title>Aegis · Live integration demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,1204 +11,850 @@
   :root {
     --paper: #F5F2EB;
     --paper-deep: #ECE7DB;
+    --paper-deeper: #DDD7C7;
     --ink: #0B0F1A;
     --ink-soft: #2A2F3C;
     --ink-mute: #6B6B66;
     --gold: #B8924A;
     --gold-deep: #8B6E36;
     --green: #2D5F3F;
+    --green-soft: #D9E5DA;
+    --red: #B5453A;
+    --red-soft: #F0DDDA;
     --rule: rgba(11, 15, 26, 0.12);
-    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --serif: 'Instrument Serif', serif;
     --sans: 'DM Sans', system-ui, sans-serif;
-    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --mono: 'JetBrains Mono', monospace;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
   body {
     background: var(--paper);
     color: var(--ink);
     font-family: var(--sans);
-    font-weight: 400;
-    font-size: 16px;
     line-height: 1.55;
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    background-image:
-      radial-gradient(rgba(11, 15, 26, 0.025) 1px, transparent 1px);
-    background-size: 24px 24px;
-    background-position: 0 0;
   }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  /* ============ NAV ============ */
-  nav {
+  .topbar {
     border-bottom: 1px solid var(--rule);
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    background: rgba(245, 242, 235, 0.92);
-    backdrop-filter: blur(8px);
-    z-index: 100;
-  }
-  nav .container {
+    padding: 16px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 48px;
+    background: var(--paper);
   }
   .logo {
     font-family: var(--serif);
-    font-size: 26px;
-    letter-spacing: -0.02em;
+    font-size: 22px;
     display: flex;
     align-items: baseline;
     gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
   }
   .logo-mark {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 10px; height: 10px;
     background: var(--gold);
     transform: rotate(45deg);
-    flex-shrink: 0;
   }
-  .logo-etym {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--ink-mute);
-    margin-left: 4px;
-    letter-spacing: 0.01em;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 36px;
-    font-size: 14px;
-  }
-  nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  nav a:hover { color: var(--gold-deep); }
-  .nav-cta {
-    padding: 10px 18px;
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 0;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.2s;
-  }
-  .nav-cta:hover { background: var(--gold-deep); color: var(--paper); }
-
-  /* ============ HERO ============ */
-  .hero {
-    padding: 120px 0 80px;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 0.7fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink-mute);
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 32px;
-    height: 1px;
-    background: var(--gold);
-  }
-  h1.hero-title {
-    font-family: var(--serif);
-    font-size: clamp(56px, 9vw, 124px);
-    line-height: 0.92;
-    letter-spacing: -0.025em;
-    font-weight: 400;
-    margin-bottom: 40px;
-  }
-  h1.hero-title em {
-    font-style: italic;
-    color: var(--gold-deep);
-  }
-  .hero-sub {
-    font-size: 20px;
-    line-height: 1.5;
-    color: var(--ink-soft);
-    max-width: 480px;
-    margin-bottom: 48px;
-  }
-  .cta-row {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-  .btn {
-    padding: 16px 28px;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 0;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    border: none;
-    font-family: var(--sans);
-  }
-  .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .btn-primary:hover {
-    background: var(--gold-deep);
-    transform: translateY(-1px);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--rule);
-  }
-  .btn-ghost:hover {
-    border-color: var(--ink);
-    background: var(--paper-deep);
-  }
-  .arrow { transition: transform 0.2s; }
-  .btn:hover .arrow { transform: translateX(4px); }
-
-  /* hero schematic */
-  .hero-schematic {
-    margin-top: 12px;
-    padding: 32px;
-    background: var(--paper-deep);
-    border: 1px solid var(--rule);
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.8;
-    position: relative;
-  }
-  .hero-schematic::before {
-    content: 'FIG. 1';
-    position: absolute;
-    top: -10px;
-    left: 24px;
-    background: var(--paper);
-    padding: 0 8px;
-    font-size: 11px;
-    color: var(--ink-mute);
-    letter-spacing: 0.1em;
-  }
-  .schem-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px dashed var(--rule);
-  }
-  .schem-row:last-child { border-bottom: none; }
-  .schem-actor {
-    flex-shrink: 0;
-    width: 96px;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .schem-arrow {
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  .schem-payload {
-    flex: 1;
-    color: var(--ink-soft);
-  }
-  .pill {
-    display: inline-block;
-    padding: 2px 8px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 10px;
-    letter-spacing: 0.04em;
-  }
-  .pill-green {
-    background: var(--green);
-  }
-
-  /* ============ MARQUEE / TRUST STRIP ============ */
-  .trust-strip {
-    padding: 36px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .trust-strip-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 48px;
-    flex-wrap: wrap;
-  }
-  .trust-label {
+  .topbar-meta {
     font-family: var(--mono);
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
     color: var(--ink-mute);
-  }
-  .trust-items {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    font-family: var(--serif);
-    font-size: 22px;
-    color: var(--ink-soft);
-    font-style: italic;
-  }
-  .etym-card {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    flex-wrap: wrap;
-    max-width: 100%;
-  }
-  .etym-headword {
-    font-family: var(--serif);
-    font-size: 26px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-  }
-  .etym-pos {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 14px;
-    color: var(--ink-mute);
-  }
-  .etym-pron {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-mute);
-    padding: 2px 6px;
-    border: 1px solid var(--rule);
-  }
-  .etym-def {
-    font-family: var(--serif);
-    font-size: 17px;
-    line-height: 1.45;
-    color: var(--ink-soft);
-    flex: 1;
-    min-width: 280px;
-  }
-  .etym-def em {
-    font-style: italic;
-    color: var(--gold-deep);
-  }
-
-  /* ============ COMPARISON ============ */
-  .section {
-    padding: 120px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .section-head {
-    display: grid;
-    grid-template-columns: 0.3fr 1fr;
-    gap: 64px;
-    margin-bottom: 80px;
-  }
-  .section-num {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-style: italic;
-    color: var(--gold-deep);
-  }
-  h2 {
-    font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 60px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    max-width: 720px;
-  }
-  h2 em {
-    font-style: italic;
-    color: var(--gold-deep);
-  }
-  .section-lead {
-    font-family: var(--serif);
-    font-size: 22px;
-    line-height: 1.45;
-    color: var(--ink-soft);
-    margin-top: 24px;
-    max-width: 640px;
-    font-style: italic;
-  }
-
-  .comparison-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-  }
-  .comp-cell {
-    background: var(--paper);
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .comp-cell.bad {
-    background: var(--paper-deep);
-  }
-  .comp-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink-mute);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .comp-label::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-  }
-  .comp-cell.bad .comp-label::before { background: #B5453A; }
-  .comp-cell.good .comp-label::before { background: var(--green); }
-  .comp-title {
-    font-family: var(--serif);
-    font-size: 28px;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-  }
-  .comp-list {
-    list-style: none;
-    margin-top: 8px;
-  }
-  .comp-list li {
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--rule);
-    font-size: 15px;
-    color: var(--ink-soft);
-    display: flex;
-    gap: 12px;
-  }
-  .comp-list li:last-child { border: none; }
-  .comp-list li::before {
-    content: '→';
-    color: var(--gold);
-    font-family: var(--mono);
-    flex-shrink: 0;
-  }
-  .comp-cell.bad .comp-list li::before {
-    content: '×';
-    color: #B5453A;
-  }
-
-  /* ============ HOW IT WORKS ============ */
-  .steps {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    border-top: 1px solid var(--rule);
-  }
-  .step {
-    display: grid;
-    grid-template-columns: 0.15fr 0.45fr 0.4fr;
-    gap: 48px;
-    padding: 48px 0;
-    border-bottom: 1px solid var(--rule);
-    align-items: start;
-  }
-  .step-num {
-    font-family: var(--serif);
-    font-size: 80px;
-    line-height: 1;
-    color: var(--gold);
-    font-style: italic;
-    font-weight: 400;
-  }
-  .step h3 {
-    font-family: var(--serif);
-    font-size: 32px;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    font-weight: 400;
-    margin-bottom: 16px;
-  }
-  .step p {
-    font-size: 16px;
-    color: var(--ink-soft);
-    line-height: 1.65;
-  }
-  .step-detail {
-    font-family: var(--mono);
-    font-size: 12px;
-    background: var(--paper-deep);
-    padding: 20px;
-    border-left: 2px solid var(--gold);
-    line-height: 1.7;
-    color: var(--ink-soft);
-  }
-  .step-detail b {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  /* ============ STATS / GRAVITAS BAR ============ */
-  .gravitas {
-    padding: 80px 0;
-    background: var(--ink);
-    color: var(--paper);
-    border-bottom: 1px solid var(--rule);
-  }
-  .gravitas .container { max-width: 1100px; }
-  .gravitas-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 48px;
-  }
-  .stat {
-    border-top: 1px solid rgba(245, 242, 235, 0.2);
-    padding-top: 24px;
-  }
-  .stat-num {
-    font-family: var(--serif);
-    font-size: 64px;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-  .stat-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(245, 242, 235, 0.6);
-    margin-bottom: 8px;
-  }
-  .stat-body {
-    font-size: 14px;
-    color: rgba(245, 242, 235, 0.85);
-    line-height: 1.5;
-  }
-
-  /* ============ INTEGRATION CODE ============ */
-  .integration {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 64px;
-    align-items: center;
-  }
-  .integration-prose h3 {
-    font-family: var(--serif);
-    font-size: 40px;
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    font-weight: 400;
-    margin-bottom: 24px;
-  }
-  .integration-prose p {
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-    margin-bottom: 24px;
-  }
-  pre.code {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 32px;
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.7;
-    overflow-x: auto;
-    border-radius: 0;
-    position: relative;
-  }
-  pre.code::before {
-    content: 'sigilo.js';
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 10px;
-    color: rgba(245, 242, 235, 0.4);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .code-key { color: #C2A878; }
-  .code-str { color: #9AB87A; }
-  .code-com { color: rgba(245, 242, 235, 0.4); font-style: italic; }
-  .code-fn { color: #E4C77C; }
-
-  /* ============ FAQ / DOUBTS ============ */
-  .faq-item {
-    border-bottom: 1px solid var(--rule);
-    padding: 32px 0;
+  .layout {
     display: grid;
-    grid-template-columns: 0.4fr 0.6fr;
-    gap: 48px;
-    align-items: start;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 56px);
   }
-  .faq-q {
+  .pane {
+    padding: 48px 56px;
+    overflow-y: auto;
+  }
+  .pane-merchant {
+    background: var(--paper);
+    border-right: 1px solid var(--rule);
+  }
+  .pane-network {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .pane h2 {
     font-family: var(--serif);
-    font-size: 24px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  .faq-q em { font-style: italic; color: var(--gold-deep); }
-  .faq-a {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--ink-soft);
-  }
-
-  /* ============ CTA BLOCK ============ */
-  .final-cta {
-    padding: 140px 0;
-    text-align: center;
-    border-bottom: 1px solid var(--rule);
-  }
-  .final-cta h2 {
-    margin: 0 auto;
-    text-align: center;
-  }
-  .final-cta-sub {
-    font-family: var(--serif);
-    font-size: 24px;
-    color: var(--ink-soft);
-    font-style: italic;
-    margin: 32px 0 48px;
-  }
-
-  /* ============ FOOTER ============ */
-  footer {
-    padding: 64px 0 48px;
     font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
     color: var(--ink-mute);
   }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
-    gap: 48px;
-    margin-bottom: 48px;
+  .pane-network h2 { color: rgba(245, 242, 235, 0.5); }
+  .pane h1 {
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    margin-bottom: 32px;
   }
-  .footer-col h4 {
+  .pane h1 em {
+    font-style: italic;
+    color: var(--gold-deep);
+  }
+  .pane-network h1 em {
+    color: var(--gold);
+  }
+
+  /* ============ Merchant pane (the "porn site / casino / dating app") ============ */
+  .merchant-card {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .merchant-brand {
+    font-family: var(--serif);
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .merchant-tagline {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .scenario-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .scenario-btn {
+    padding: 8px 14px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
     font-family: var(--mono);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink);
-    margin-bottom: 16px;
-    font-weight: 500;
-  }
-  .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .footer-col a {
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.15s;
     color: var(--ink-soft);
-    text-decoration: none;
   }
-  .footer-col a:hover { color: var(--gold-deep); }
-  .footer-bottom {
-    padding-top: 32px;
-    border-top: 1px solid var(--rule);
+  .scenario-btn:hover { border-color: var(--ink); }
+  .scenario-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .gate-content {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 40px 32px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .gate-icon {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--rule);
+    background: var(--paper-deep);
+    margin: 0 auto 20px;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--gold);
+  }
+  .gate-content h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .gate-content p {
+    font-size: 14px;
+    color: var(--ink-mute);
+    margin-bottom: 28px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn-verify {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+  .btn-verify:hover {
+    background: var(--gold-deep);
+    transform: translateY(-1px);
+  }
+  .btn-verify:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-verify .verify-mark {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  .gate-result {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    margin-bottom: 24px;
+    display: none;
+  }
+  .gate-result.show { display: block; animation: fadeUp 0.5s ease; }
+  .gate-result.success { background: var(--green-soft); border-color: var(--green); }
+  .gate-result.fail { background: var(--red-soft); border-color: var(--red); }
+
+  .result-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .result-headline {
+    font-family: var(--serif);
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .result-detail {
     font-family: var(--mono);
     font-size: 12px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    background: rgba(11, 15, 26, 0.04);
+    padding: 16px;
+    margin-top: 12px;
+    overflow-x: auto;
   }
-  .footer-tagline {
+  .result-detail .k { color: var(--gold-deep); }
+  .result-detail .s { color: var(--green); }
+  .result-detail .n { color: var(--ink); font-weight: 500; }
+
+  /* ============ Verification modal (the wallet UX) ============ */
+  .modal-veil {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 26, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal-veil.show { display: flex; }
+
+  .wallet {
+    width: 360px;
+    background: var(--paper);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalIn {
+    from { transform: translateY(40px) scale(0.96); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .wallet-top {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+  }
+  .wallet-top .dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    animation: pulse 1.4s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .wallet-body {
+    padding: 32px 24px 24px;
+  }
+  .wallet-step { display: none; }
+  .wallet-step.active { display: block; animation: fadeUp 0.4s ease; }
+
+  .request-from {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .request-site {
+    font-family: var(--serif);
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .request-asks {
+    background: var(--paper-deep);
+    padding: 20px;
+    margin-bottom: 24px;
+    border-left: 2px solid var(--gold);
+  }
+  .request-asks h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-family: var(--mono);
+  }
+  .request-asks .ask {
     font-family: var(--serif);
     font-size: 18px;
     color: var(--ink);
     font-style: italic;
-    max-width: 320px;
-    line-height: 1.4;
   }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 960px) {
-    .hero-grid, .section-head, .integration, .faq-item, .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-    .step {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .step-num { font-size: 60px; }
-    .gravitas-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-    }
-    .comparison-grid { grid-template-columns: 1fr; }
-    nav ul { display: none; }
-    .hero { padding: 60px 0 40px; }
-    .section { padding: 60px 0; }
-    .final-cta { padding: 80px 0; }
+  .privacy-list {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    font-size: 13px;
+    color: var(--ink-soft);
   }
-
-  /* fade-in on scroll */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ============ EVIDENCE CARDS (§ 03) ============ */
-  .evidence-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  @media (max-width: 880px) {
-    .evidence-grid { grid-template-columns: 1fr; }
-  }
-
-  .evidence-card {
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    padding: 36px 32px 28px;
-    text-decoration: none;
-    color: inherit;
+  .privacy-list li {
+    padding: 6px 0;
     display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 10px;
+    align-items: center;
   }
-  .evidence-card:hover {
-    border-color: var(--ink);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 24px rgba(11, 15, 26, 0.06);
+  .privacy-list li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 500;
+    flex-shrink: 0;
   }
-  .evidence-card:hover .evidence-arrow {
-    transform: translate(2px, -2px);
-    color: var(--gold-deep);
-  }
-
-  .evidence-arrow {
-    position: absolute;
-    top: 28px;
-    right: 28px;
-    font-family: var(--mono);
-    font-size: 16px;
+  .privacy-list li.no::before {
+    content: '✕';
     color: var(--ink-mute);
-    transition: transform 0.2s ease, color 0.2s ease;
   }
+  .privacy-list li.no { color: var(--ink-mute); text-decoration: line-through; }
 
-  .evidence-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    margin-bottom: 12px;
+  .wallet-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
+  .w-btn {
+    padding: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .w-btn-deny {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+  .w-btn-deny:hover { background: var(--paper-deep); }
+  .w-btn-allow {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .w-btn-allow:hover { background: var(--gold-deep); }
 
-  .evidence-name {
+  .biometric {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .bio-ring {
+    width: 88px;
+    height: 88px;
+    border: 2px solid var(--rule);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1.2s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .bio-label {
     font-family: var(--serif);
-    font-size: 26px;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    color: var(--ink);
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .bio-sub {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+  }
+  .success-headline {
+    font-family: var(--serif);
+    font-size: 22px;
+    text-align: center;
     margin-bottom: 8px;
   }
-
-  .evidence-meta {
-    font-family: var(--mono);
+  .success-sub {
+    text-align: center;
     font-size: 13px;
-    color: var(--gold-deep);
-    margin-bottom: 20px;
-  }
-
-  .evidence-body {
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    flex-grow: 1;
+    color: var(--ink-mute);
     margin-bottom: 24px;
   }
 
-  .evidence-foot {
+  /* ============ Network pane (the "behind the scenes") ============ */
+  .network-section {
+    margin-bottom: 36px;
+  }
+  .network-section h3 {
     font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-mute);
-    border-top: 1px solid var(--rule);
-    padding-top: 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(245, 242, 235, 0.5);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(245, 242, 235, 0.1);
   }
 
-  /* Verify-yourself bottom strip */
-  .verify-yourself {
-    margin-top: 56px;
-    padding: 28px 32px;
-    background: var(--paper-deep);
-    border: 1px solid var(--rule);
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+  .actor-card {
+    background: rgba(245, 242, 235, 0.06);
+    border-left: 2px solid var(--gold);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
   }
-  @media (max-width: 680px) {
-    .verify-yourself { flex-direction: column; gap: 12px; padding: 24px; }
+  .actor-card .who {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 4px;
   }
-  .verify-mark {
+  .actor-card .who-sub {
     font-family: var(--serif);
     font-style: italic;
-    font-size: 28px;
-    color: var(--gold-deep);
-    line-height: 1;
-    margin-top: 2px;
-    flex-shrink: 0;
+    color: rgba(245, 242, 235, 0.6);
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 400;
   }
-  .verify-body {
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--ink-soft);
+  .actor-card .saw {
+    color: rgba(245, 242, 235, 0.7);
   }
-  .verify-body strong {
-    color: var(--ink);
+  .actor-card .saw b {
+    color: var(--gold);
     font-weight: 500;
   }
-  .verify-body code {
+  .actor-card .saw .ok {
+    color: #9ED69E;
+  }
+  .actor-card.empty { border-left-color: rgba(245, 242, 235, 0.2); }
+  .actor-card.empty .saw { color: rgba(245, 242, 235, 0.45); font-style: italic; }
+
+  .event-log {
     font-family: var(--mono);
-    font-size: 13px;
-    background: var(--paper);
+    font-size: 11px;
+    line-height: 1.9;
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    max-height: 220px;
+    overflow-y: auto;
+    color: rgba(245, 242, 235, 0.7);
+  }
+  .event-log .ts { color: rgba(245, 242, 235, 0.35); }
+  .event-log .ok { color: #9ED69E; }
+  .event-log .warn { color: #E4C77C; }
+  .event-log .err { color: #E89888; }
+  .event-log .info { color: #B5D4F4; }
+
+  .reset-bar {
+    padding: 16px 56px;
+    background: var(--paper-deep);
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .reset-btn {
+    background: transparent;
     border: 1px solid var(--rule);
-    padding: 2px 6px;
-    border-radius: 2px;
-    color: var(--ink);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .pane-merchant { border-right: none; border-bottom: 1px solid var(--rule); }
+    .pane { padding: 32px 24px; }
+    .wallet { width: calc(100vw - 32px); }
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="container">
-    <a href="#" class="logo">
-      <span class="logo-mark" aria-hidden="true"></span>
-      Sigilo
-      <span class="logo-etym" aria-hidden="true">n. secrecy</span>
-    </a>
-    <ul>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#verifiable">Verifiable</a></li>
-      <li><a href="#integration">Integrate</a></li>
-      <li><a href="#trust">Trust model</a></li>
-      <li><a href="#docs">Docs</a></li>
-    </ul>
-    <a href="mailto:partners@sigilo.id?subject=Sigilo%20%E2%80%94%20Request%20access" class="nav-cta"">Request access</a>
-  </div>
-</nav>
+<div class="topbar">
+  <a href="../landing/index.html" class="logo">
+    <span class="logo-mark" aria-hidden="true"></span>
+    Aegis
+  </a>
+  <span class="topbar-meta">Live integration demo · v0.1</span>
+</div>
 
-<header class="hero">href="mailto:partners@sigilo.id?subject=Sigilo%20%E2%80%94%20Request%20access" class="btn btn-primary"
-  <div class="container">
-    <div class="hero-grid">
-      <div>
-        <div class="eyebrow">A network for verified age, not verified identity</div>
-        <h1 class="hero-title">Proof,<br><em>in confidence.</em></h1>
-        <p class="hero-sub">
-          Sigilo is a privacy-preserving age verification network. We let users prove they're old enough to use a site without revealing their identity, date of birth, or document — to the site, to us, or to anyone else.
-        </p>
-        <div class="cta-row">
-          <a href="#contact" class="btn btn-primary">
-            Request access
-            <span class="arrow">→</span>
-          </a>
-          <a href="https://github.com/sigilo-id/verify/blob/main/THREAT_MODEL.md" class="btn btn-ghost">Read the threat model</a>
-        </div>
+<main class="layout">
+  <section class="pane pane-merchant">
+    <h2>The relying party's view</h2>
+    <h1>What the <em>website</em> sees.</h1>
+
+    <div class="merchant-card">
+      <div class="merchant-brand" id="merchantBrand">Vault Spirits</div>
+      <div class="merchant-tagline" id="merchantTagline">Online alcohol delivery · UK</div>
+
+      <div class="scenario-toggle">
+        <button class="scenario-btn active" data-scenario="alcohol">Alcohol retailer</button>
+        <button class="scenario-btn" data-scenario="adult">Adult content</button>
+        <button class="scenario-btn" data-scenario="social">Social platform</button>
       </div>
 
-      <aside class="hero-schematic" aria-label="Verification flow schematic">
-        <div class="schem-row">
-          <span class="schem-actor">Issuer</span>
-          <span class="schem-arrow">→</span>
-          <span class="schem-payload">signs once, never sees the site</span>
-        </div>
-        <div class="schem-row">
-          <span class="schem-actor">Wallet</span>
-          <span class="schem-arrow">→</span>
-          <span class="schem-payload">presents <span class="pill">ZK proof</span></span>
-        </div>
-        <div class="schem-row">
-          <span class="schem-actor">Website</span>
-          <span class="schem-arrow">→</span>
-          <span class="schem-payload">learns <span class="pill pill-green">over_18: true</span></span>
-        </div>
-        <div class="schem-row">
-          <span class="schem-actor">Sigilo</span>
-          <span class="schem-arrow">→</span>
-          <span class="schem-payload">cannot link any of the above</span>
-        </div>
-      </aside>
-    </div>
-  </div>
-</header>
+      <div class="gate-content">
+        <div class="gate-icon" aria-hidden="true">⌖</div>
+        <h3 id="gateTitle">Confirm you're old enough to shop here.</h3>
+        <p id="gateBody">Required by UK law. Takes one tap.</p>
+        <button class="btn-verify" id="verifyBtn">
+          <span class="verify-mark"></span>
+          Verify with Aegis
+        </button>
+      </div>
 
-<section class="trust-strip">
-  <div class="container trust-strip-inner">
-    <div class="etym-card">
-      <span class="etym-headword">sigilo</span>
-      <span class="etym-pos">noun</span>
-      <span class="etym-pron">/siˈxilo/</span>
-      <span class="etym-def">Spanish, Portuguese — secrecy; the practice of keeping a matter unspoken or unrevealed; the discretion of one entrusted with another's confidence. From Latin <em>sigillum</em>, "a small seal."</span>
+      <div class="gate-result" id="gateResult">
+        <div class="result-label" id="resultLabel">Verification complete</div>
+        <div class="result-headline" id="resultHeadline">Access granted.</div>
+        <div class="result-detail" id="resultDetail"></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="trust-strip" style="border-top: none; padding-top: 0;">
-  <div class="container trust-strip-inner">
-    <span class="trust-label">Built on open standards</span>
-    <div class="trust-items">
-      <span>W3C Verifiable Credentials</span>
-      <span>·</span>
-      <span>OpenID4VP</span>
-      <span>·</span>
-      <span>ISO/IEC 18013-5</span>
-      <span>·</span>
-      <span>eIDAS 2.0</span>
-    </div>
-  </div>
-</section>
+  <section class="pane pane-network">
+    <h2>The network's view</h2>
+    <h1>What <em>everyone else</em> sees.</h1>
 
-<section class="section" id="comparison">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num">§ 01</span>
-      <div>
-        <h2>The current way is <em>backwards.</em></h2>
-        <p class="section-lead">Existing vendors collect government IDs and biometrics, then return a yes-or-no answer. The honeypot is enormous. The privacy harm is structural. We built the inverse.</p>
+    <div class="network-section">
+      <h3>Each party's knowledge after verification</h3>
+
+      <div class="actor-card empty" id="actorAegis">
+        <div class="who">Aegis network</div>
+        <div class="who-sub">The infrastructure provider</div>
+        <div class="saw" id="aegisSaw">Awaiting verification…</div>
+      </div>
+
+      <div class="actor-card empty" id="actorIssuer">
+        <div class="who">Issuer · HSBC UK</div>
+        <div class="who-sub">The bank that vouched at onboarding</div>
+        <div class="saw" id="issuerSaw">Awaiting verification…</div>
+      </div>
+
+      <div class="actor-card empty" id="actorSite">
+        <div class="who">Relying party · the website</div>
+        <div class="who-sub">The site asking for the age check</div>
+        <div class="saw" id="siteSaw">Awaiting verification…</div>
       </div>
     </div>
 
-    <div class="comparison-grid">
-      <div class="comp-cell bad">
-        <span class="comp-label">Existing IDV vendors</span>
-        <h3 class="comp-title">User uploads ID. Vendor keeps it.</h3>
-        <ul class="comp-list">
-          <li>Vendor accumulates millions of government IDs</li>
-          <li>Each ID is linked to which adult, gambling, or dating site requested it</li>
-          <li>Biometric retention spans one to three years</li>
-          <li>Subpoena, breach, and policy-shift risk all live in one place</li>
-          <li>40–70% user abandonment at the ID upload step</li>
+    <div class="network-section">
+      <h3>Event log</h3>
+      <div class="event-log" id="eventLog">
+        <div><span class="ts">[ready]</span> <span class="info">demo initialised — click "Verify with Aegis" on the left</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="reset-bar">
+  <span>This is a demo. No real cryptography is executed. Real product uses BBS+ over W3C VC.</span>
+  <button class="reset-btn" onclick="resetDemo()">Reset</button>
+</div>
+
+<div class="modal-veil" id="modalVeil">
+  <div class="wallet">
+    <div class="wallet-top">
+      <span><span class="dot"></span>Aegis wallet</span>
+      <span>Secured</span>
+    </div>
+    <div class="wallet-body">
+
+      <div class="wallet-step active" id="step-request">
+        <div class="request-from">Verification request from</div>
+        <div class="request-site" id="walletSiteName">Vault Spirits</div>
+
+        <div class="request-asks">
+          <h4>The site is asking</h4>
+          <div class="ask" id="walletPredicate">"Are you 18 or older?"</div>
+        </div>
+
+        <ul class="privacy-list">
+          <li>Aegis will send: <code>over_18: true</code></li>
+          <li class="no">Your date of birth — not shared</li>
+          <li class="no">Your name — not shared</li>
+          <li class="no">Which issuer vouched — not shared</li>
         </ul>
-      </div>
-      <div class="comp-cell good">
-        <span class="comp-label">Sigilo network</span>
-        <h3 class="comp-title">User proves a predicate. Nobody collects anything.</h3>
-        <ul class="comp-list">
-          <li>The website receives one boolean: <code>over_18: true</code></li>
-          <li>The issuer signs once at onboarding, never sees the site</li>
-          <li>Two presentations of the same credential are cryptographically unlinkable</li>
-          <li>Sigilo is not in the verification path — we hold nothing to leak</li>
-          <li>One tap. 3-second median verification time</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="section" id="how">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num">§ 02</span>
-      <div>
-        <h2>How it works.</h2>
-        <p class="section-lead">A three-party protocol. Each party sees only their slice. No party — including Sigilo — can reconstruct the whole.</p>
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">i.</div>
-        <div>
-          <h3>Onboard once, with an issuer you already trust.</h3>
-          <p>The user verifies their age once, with a bank, mobile carrier, government wallet, or accredited identity provider. The issuer signs a verifiable credential bound to the user's device.</p>
-        </div>
-        <div class="step-detail">
-          <b>Issuers · tier 1</b><br>
-          Government mDLs (ISO 18013-5), EUDI Wallet, passport NFC reads<br><br>
-          <b>Issuers · tier 2</b><br>
-          Regulated banks, MNOs, accredited IDV providers
+        <div class="wallet-actions">
+          <button class="w-btn w-btn-deny" onclick="denyVerify()">Deny</button>
+          <button class="w-btn w-btn-allow" onclick="approveVerify()">Approve</button>
         </div>
       </div>
 
-      <div class="step">
-        <div class="step-num">ii.</div>
-        <div>
-          <h3>The credential lives in a wallet on the user's device.</h3>
-          <p>Bound to the device's secure enclave. Never exported. The user can hold one credential and use it across every site in the network — no re-verification, no re-upload of ID.</p>
-        </div>
-        <div class="step-detail">
-          <b>Storage</b><br>
-          Apple Secure Enclave, Android StrongBox<br><br>
-          <b>Wallets</b><br>
-          Sigilo app · Apple Wallet · Google Wallet · EUDI Wallet
+      <div class="wallet-step" id="step-bio">
+        <div class="biometric">
+          <div class="bio-ring"></div>
+          <div class="bio-label">Confirm with Face ID</div>
+          <div class="bio-sub">GENERATING ZK PROOF</div>
         </div>
       </div>
 
-      <div class="step">
-        <div class="step-num">iii.</div>
-        <div>
-          <h3>When a website asks, the wallet proves the predicate.</h3>
-          <p>A zero-knowledge proof asserts <code>dateOfBirth ≤ today − 18y</code>. The website verifies the proof. It learns nothing else — not the date of birth, not the issuer, not a user identifier, not anything correlatable across visits.</p>
-        </div>
-        <div class="step-detail">
-          <b>Proof scheme</b><br>
-          BBS+ over W3C VC with selective disclosure<br><br>
-          <b>Unlinkability</b><br>
-          Fresh randomised presentation each time
-        </div>
+      <div class="wallet-step" id="step-success">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <div class="success-headline">Proof delivered.</div>
+        <div class="success-sub">The site received <code>over_18: true</code><br>and nothing else.</div>
       </div>
     </div>
   </div>
-</section>
-
-<section class="gravitas">
-  <div class="container">
-    <div class="gravitas-grid">
-      <div class="stat">
-        <div class="stat-num">0</div>
-        <div class="stat-label">Identity records held</div>
-        <div class="stat-body">Sigilo is not in the verification path. We have nothing to leak, nothing to hand over.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3s</div>
-        <div class="stat-label">Median verification</div>
-        <div class="stat-body">Onboarding: two minutes, once. Every subsequent check across the network: one tap.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">15+</div>
-        <div class="stat-label">Jurisdictions in scope</div>
-        <div class="stat-body">UK Online Safety Act, EU DSA, Texas HB 1181, Louisiana Act 440, and growing.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Cross-site presentations</div>
-        <div class="stat-body">Cryptographically unlinkable. Two visits to two sites cannot be correlated by anyone.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="verifiable">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num">§ 03</span>
-      <div>
-        <h2>Verifiable <em>from day one.</em></h2>
-        <p class="section-lead">Trust is not a marketing word. Our relying-party SDK is open source. Every release is built and signed by GitHub Actions, recorded in a public transparency log, and verified by npm before it reaches your installer. Anyone can audit what we ship against the source we published.</p>
-      </div>
-    </div>
-
-    <div class="evidence-grid">
-
-      <a class="evidence-card" href="https://github.com/sigilo-id/verify" rel="noopener">
-        <span class="evidence-arrow">↗</span>
-        <div class="evidence-label">Source</div>
-        <div class="evidence-name">github.com/sigilo&#8209;id/verify</div>
-        <div class="evidence-meta">Public · Apache 2.0</div>
-        <p class="evidence-body">Full SDK source, threat model, security policy, CI workflows. Static analysis runs on every commit. Issues and security disclosures handled in the open.</p>
-        <div class="evidence-foot">View repository →</div>
-      </a>
-
-      <a class="evidence-card" href="https://www.npmjs.com/package/@sigilo/verify" rel="noopener">
-        <span class="evidence-arrow">↗</span>
-        <div class="evidence-label">Package</div>
-        <div class="evidence-name">@sigilo/verify</div>
-        <div class="evidence-meta">v0.0.2 · Provenance verified</div>
-        <p class="evidence-body">One install command. Zero runtime dependencies. TypeScript-first, ESM-only. The green checkmark on npm links the published artifact to the exact commit that produced it.</p>
-        <div class="evidence-foot">View on npm →</div>
-      </a>
-
- <a class="evidence-card" href="https://github.com/sigilo-id/verify/actions/runs/26698219190" rel="noopener">
-        <span class="evidence-arrow">↗</span>
-        <div class="evidence-label">Build</div>
-        <div class="evidence-name">Signed by GitHub Actions</div>
-        <div class="evidence-meta">SLSA v1 · Sigstore inclusion proof</div>
-        <p class="evidence-body">Every release is built by a workflow whose identity is signed by Sigstore at publish time. Inspect the workflow run, the commit it built, and the attestation it produced — all timestamped to a public transparency log.</p>
-        <div class="evidence-foot">View workflow run →</div>
-      </a>
-    </div>
-
-    <div class="verify-yourself">
-      <span class="verify-mark">§</span>
-      <div class="verify-body">
-        <strong>Verify it yourself.</strong> Run <code>npm install @sigilo/verify</code> then <code>npm audit signatures</code>. npm will fetch the signed attestation, verify it against the Sigstore root of trust, and confirm the package came from this exact commit in this exact workflow run. No tokens. No trust required.
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section" id="integration">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num">§ 04</span>
-      <div>
-        <h2>One line of code. Production grade.</h2>
-        <p class="section-lead">Built for developers. Audited for regulators. Drops into your existing checkout, signup, or gating flow.</p>
-      </div>
-    </div>
-
-    <div class="integration">
-      <div class="integration-prose">
-        <h3>SDKs for every surface.</h3>
-        <p>Web, iOS, Android, React Native, Unity, and a server-side proof verifier. OpenID4VP-conformant — your existing wallet plumbing works out of the box.</p>
-        <p>The relying-party SDK is open source. The cryptography is open source. The threat model is published. The audit reports are public.</p>
-        <a href="https://www.npmjs.com/package/@sigilo/verify" class="btn btn-ghost">View the docs<span class="arrow">→</span></a>
-      </div>
-
-      <pre class="code"><span class="code-com">// drop-in widget — one line on the page</span>
-<span class="code-key">import</span> { <span class="code-fn">Sigilo</span> } <span class="code-key">from</span> <span class="code-str">'@sigilo/verify'</span>;
-
-<span class="code-key">const</span> sigilo = <span class="code-key">new</span> <span class="code-fn">Sigilo</span>({
-  publishableKey: <span class="code-str">'pk_live_4kZ...'</span>,
-  predicate: <span class="code-str">'over_18'</span>,
-  assurance: <span class="code-str">'high'</span>,
-});
-
-<span class="code-key">const</span> { verified, proofId } = <span class="code-key">await</span> sigilo.<span class="code-fn">verify</span>();
-
-<span class="code-key">if</span> (verified) {
-  <span class="code-com">// proceed — you received a boolean,</span>
-  <span class="code-com">// no PII, no biometrics, no ID image</span>
-}</pre>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="trust">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num">§ 05</span>
-      <div>
-        <h2>The hard questions, <em>answered.</em></h2>
-        <p class="section-lead">If you're a head of trust, a regulator, or a cryptographer, these are the questions you should ask. They are the ones we ask ourselves.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-q">What does the relying party actually <em>see?</em></div>
-      <div class="faq-a">A signed cryptographic proof of the requested predicate, a proof identifier for audit, and the assurance tier. No user identifier. No issuer identifier. No date of birth, document number, name, or biometric. The same user verifying twice in succession produces two presentations that cannot be linked.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-q">Could a state-level actor compel you to identify a user?</div>
-      <div class="faq-a">We architecturally cannot. Sigilo is not in the proof verification path — verification happens between the wallet and the relying party using public network keys. We do not see verifications, do not log presentations, and do not hold a database that could be queried. Issuers individually cannot link a presented proof to a user without breaking the underlying cryptographic assumptions. A multi-issuer federation prevents single-issuer compulsion.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-q">What about a determined minor using a parent's device?</div>
-      <div class="faq-a">No age verification system is truly foolproof against this. We are honest about it. Sigilo defends with hardware-bound keys requiring on-device biometric unlock at presentation, passive liveness checks for higher-risk relying parties, behavioural device-binding signals processed locally, and periodic re-anchoring against the original issuer. This raises the bar substantially above current solutions while remaining compatible with regulatory "highly effective" thresholds.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-q">Why should a regulator accept this?</div>
-      <div class="faq-a">Because data minimisation is the law in every jurisdiction that has written one. The UK Online Safety Act, EU eIDAS 2.0, and California's CCPA all require that the data collected for a purpose be limited to what is necessary. Sigilo collects nothing at the relying party — by design, not by promise. We are pursuing recognition by Ofcom and conformance under eIDAS 2.0 implementing acts.</div>
-    </div>
-  </div>
-</section>
-
-<section class="final-cta">
-  <div class="container">
-    <h2>Compliance shouldn't<br>cost your users <em>their privacy.</em></h2>
-    <p class="final-cta-sub">Talk to us about your verification volume, your regulator, and your timeline.</p>
-    <div class="cta-row" style="justify-content: center;">
-      <a href="mailto:partners@sigilo.id" class="btn btn-primary">
-        partners@sigilo.id
-        <span class="arrow">→</span>
-      </a>
-      <a href="https://github.com/sigilo-id/verify" class="btn btn-ghost">Developer docs</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="logo" style="margin-bottom: 16px;">
-          <span class="logo-mark" aria-hidden="true"></span>
-          Sigilo
-        </div>
-        <p class="footer-tagline">A network for verified age, not verified identity.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#integration">Integration</a></li>
-          <li><a href="#docs">Documentation</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Trust</h4>
-        <ul>
-          <li><a href="https://github.com/sigilo-id/verify/blob/main/THREAT_MODEL.md">Threat model</a></li>
-          <li><a href="https://github.com/sigilo-id/verify/blob/main/SECURITY.md">Security policy</a></li>
-          <li><a href="https://www.npmjs.com/package/@sigilo/verify?activeTab=provenance">Provenance</a></li>
-          <li><a href="https://github.com/sigilo-id">Open source</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-      <li><a href="mailto:hello@sigilo.id">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Sigilo, Ltd.</span>
-      <span>Built on open standards · Audited by independent third parties</span>
-    </div>
-  </div>
-</footer>
+</div>
 
 <script>
-  // simple scroll-reveal
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
+  const scenarios = {
+    alcohol: {
+      brand: 'Vault Spirits',
+      tagline: 'Online alcohol delivery · UK',
+      gateTitle: "Confirm you're old enough to shop here.",
+      gateBody: 'Required by UK law. Takes one tap.',
+      predicate: '"Are you 18 or older?"',
+      predicateKey: 'over_18',
+      site: 'Vault Spirits',
+    },
+    adult: {
+      brand: 'Velvet & Co.',
+      tagline: 'Adult content platform',
+      gateTitle: 'Age verification required.',
+      gateBody: 'Required under the UK Online Safety Act.',
+      predicate: '"Are you 18 or older?"',
+      predicateKey: 'over_18',
+      site: 'Velvet & Co.',
+    },
+    social: {
+      brand: 'Murmur',
+      tagline: 'Anonymous social network',
+      gateTitle: 'Age gate for under-16 protections.',
+      gateBody: 'Determines which features are available.',
+      predicate: '"Are you 16 or older?"',
+      predicateKey: 'over_16',
+      site: 'Murmur',
+    },
+  };
+
+  let currentScenario = 'alcohol';
+  let verifyCount = 0;
+
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentScenario = btn.dataset.scenario;
+      applyScenario();
+      resetState();
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.section, .gravitas, .final-cta').forEach(el => {
-    el.classList.add('reveal');
-    io.observe(el);
+  });
+
+  function applyScenario() {
+    const s = scenarios[currentScenario];
+    document.getElementById('merchantBrand').textContent = s.brand;
+    document.getElementById('merchantTagline').textContent = s.tagline;
+    document.getElementById('gateTitle').textContent = s.gateTitle;
+    document.getElementById('gateBody').textContent = s.gateBody;
+    document.getElementById('walletSiteName').textContent = s.site;
+    document.getElementById('walletPredicate').textContent = s.predicate;
+  }
+
+  function resetState() {
+    document.getElementById('gateResult').classList.remove('show', 'success', 'fail');
+    document.getElementById('verifyBtn').disabled = false;
+    document.querySelectorAll('.actor-card').forEach(c => c.classList.add('empty'));
+    document.getElementById('aegisSaw').textContent = 'Awaiting verification…';
+    document.getElementById('issuerSaw').textContent = 'Awaiting verification…';
+    document.getElementById('siteSaw').textContent = 'Awaiting verification…';
+    const log = document.getElementById('eventLog');
+    log.innerHTML = '<div><span class="ts">[ready]</span> <span class="info">demo reset — click "Verify with Aegis"</span></div>';
+  }
+
+  function resetDemo() {
+    resetState();
+    document.getElementById('modalVeil').classList.remove('show');
+    showStep('step-request');
+  }
+
+  function showStep(id) {
+    document.querySelectorAll('.wallet-step').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function logEvent(text, type = 'info') {
+    const log = document.getElementById('eventLog');
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false }) + '.' + String(Date.now() % 1000).padStart(3, '0');
+    const div = document.createElement('div');
+    div.innerHTML = `<span class="ts">[${ts}]</span> <span class="${type}">${text}</span>`;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  document.getElementById('verifyBtn').addEventListener('click', () => {
+    const s = scenarios[currentScenario];
+    document.getElementById('verifyBtn').disabled = true;
+    logEvent(`relying-party SDK → verification requested · predicate=${s.predicateKey}`, 'info');
+    logEvent(`network → presentation request issued to user's wallet`, 'info');
+    document.getElementById('modalVeil').classList.add('show');
+    showStep('step-request');
+  });
+
+  function denyVerify() {
+    logEvent(`wallet → user denied request`, 'warn');
+    document.getElementById('modalVeil').classList.remove('show');
+    setTimeout(() => {
+      const r = document.getElementById('gateResult');
+      r.classList.add('show', 'fail');
+      document.getElementById('resultLabel').textContent = 'Verification declined';
+      document.getElementById('resultHeadline').textContent = 'Access denied.';
+      document.getElementById('resultDetail').innerHTML = `<span class="k">status</span>: <span class="n">"declined"</span>
+<span class="k">reason</span>: <span class="n">"user_denied"</span>
+<span class="k">pii_received</span>: <span class="s">null</span>`;
+      document.getElementById('verifyBtn').disabled = false;
+    }, 300);
+  }
+
+  function approveVerify() {
+    logEvent(`wallet → user approved · biometric unlock requested`, 'ok');
+    showStep('step-bio');
+    setTimeout(() => {
+      logEvent(`wallet → biometric verified locally · generating BBS+ proof`, 'info');
+      setTimeout(() => {
+        logEvent(`wallet → proof generated · presenting to relying party`, 'info');
+        setTimeout(() => {
+          logEvent(`relying party → proof verified · over_18 = true`, 'ok');
+          showStep('step-success');
+          setTimeout(completeVerify, 1200);
+        }, 600);
+      }, 800);
+    }, 1100);
+  }
+
+  function completeVerify() {
+    document.getElementById('modalVeil').classList.remove('show');
+    verifyCount++;
+    const s = scenarios[currentScenario];
+    const proofId = 'proof_' + Math.random().toString(36).slice(2, 11);
+    const nonce = Math.random().toString(36).slice(2, 18);
+
+    const r = document.getElementById('gateResult');
+    r.classList.add('show', 'success');
+    document.getElementById('resultLabel').textContent = 'Verification complete · server response';
+    document.getElementById('resultHeadline').textContent = 'Access granted.';
+    document.getElementById('resultDetail').innerHTML = `<span class="k">verified</span>: <span class="s">true</span>
+<span class="k">predicate</span>: <span class="n">"${s.predicateKey}"</span>
+<span class="k">assurance</span>: <span class="n">"high"</span>
+<span class="k">proof_id</span>: <span class="n">"${proofId}"</span>
+<span class="k">nonce</span>: <span class="n">"${nonce}"</span>
+<span class="k">pii_received</span>: <span class="s">null</span>
+<span class="k">issuer_revealed</span>: <span class="s">false</span>`;
+
+    // Update actor cards
+    const aegis = document.getElementById('actorAegis');
+    aegis.classList.remove('empty');
+    document.getElementById('aegisSaw').innerHTML = `Logged <b>nothing</b>. The verification happened directly between the wallet and the relying party using <b>public network keys</b>. Aegis was not on the data path.<br><br><span class="ok">→ cannot link this verification to any user, site, or prior visit</span>`;
+
+    const issuer = document.getElementById('actorIssuer');
+    issuer.classList.remove('empty');
+    document.getElementById('issuerSaw').innerHTML = `Signed the original credential <b>14 months ago</b> at onboarding. Has not seen the user since. Does not know which sites the user has visited.<br><br><span class="ok">→ cannot be compelled to identify this verification</span>`;
+
+    const site = document.getElementById('actorSite');
+    site.classList.remove('empty');
+    document.getElementById('siteSaw').innerHTML = `Received <b>${s.predicateKey} = true</b> + an opaque proof ID for audit. No name, no DOB, no document number, no biometric.<br><br><span class="ok">→ same user re-verifying tomorrow will produce an unlinkable proof</span>`;
+
+    document.getElementById('verifyBtn').disabled = false;
+  }
+
+  document.getElementById('modalVeil').addEventListener('click', (e) => {
+    if (e.target.id === 'modalVeil') {
+      document.getElementById('modalVeil').classList.remove('show');
+      document.getElementById('verifyBtn').disabled = false;
+    }
   });
 </script>
-
 </body>
 </html>
